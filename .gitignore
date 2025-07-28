@@ -19,9 +19,7 @@
 # production
 /build
 
-/api-docs
 
-/custom_libs
 
 # misc
 .DS_Store
