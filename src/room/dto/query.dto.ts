@@ -1,14 +1,9 @@
 export class RoomDto {
   checkInDate: string;
   checkOutDate: string;
-  roomType: RoomTypeDto;
-  capacity: number;
   priceMin: number;
-  priceMax: number;
-}
-
-export class RoomTypeDto {
   name: string;
-  capacity: number;
+  capacity: string;
   amenities: string[];
+  priceMax: number;
 }

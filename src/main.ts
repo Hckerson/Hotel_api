@@ -6,7 +6,13 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 
 async function bootstrap() {
-
+  var corsOptions = {
+    origin: 'http://127.0.0.1:3001',
+    credentials: true, // allow cookies or Authorization headers
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  };
+  
   const app = await NestFactory.create(AppModule);
   app.use(cookieParser(process.env.COOKIE_SECRET))
     const config = new DocumentBuilder()
@@ -15,6 +21,7 @@ async function bootstrap() {
     .setVersion('1.0')
     .addCookieAuth('sessionId') // optional
     .build();
+  app.enableCors(corsOptions)
 
   const document = SwaggerModule.createDocument(app, config);
 

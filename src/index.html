@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://js.paystack.co/v2/inline.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  </head>
+  <body>
+    <button type="button" onclick="initialize()">Initailize</button>
+    <p id="response"></p>
+    <script>
+      const initialize = async () => {
+        try {
+          const response = await axios.post(
+            "http://localhost:3000/payment/initialize",
+            { email: "test@gmail.com", amount: 5000 }
+          );
+          console.log(response.data);
+          document.getElementById("response").innerHTML = response.data;
+        } catch (error) {
+          console.error(`Error talking with backend`);
+        }
+      };
+    </script>
+  </body>
+</html>
