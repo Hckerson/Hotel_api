@@ -1,10 +1,11 @@
+import { Query } from './db/query';
 import { Module } from '@nestjs/common';
-import { PaymentService } from './payment.service';
-import { Paystack } from './services/paystack/paystack';
+import { Paystack } from './payment.service';
+
 import { PaymentController } from './payment.controller';
 
 @Module({
   controllers: [PaymentController],
-  providers: [PaymentService, Paystack],
+  providers: [ Paystack, Query],
 })
 export class PaymentModule {}
