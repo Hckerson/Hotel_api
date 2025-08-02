@@ -9,8 +9,9 @@ async function bootstrap() {
   var corsOptions = {
     origin: [
       "http://localhost:3000",
+      "https://paystark.loca.lt",
       "https://popup-9wmd.onrender.com",
-      "https://0c85208e52db.ngrok-free.app",
+      "https://b1ea76dfe7f9.ngrok-free.app",
     ],
     credentials: true, // allow cookies or Authorization headers
     methods: ["GET", "POST", "OPTIONS"],

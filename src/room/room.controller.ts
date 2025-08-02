@@ -39,7 +39,7 @@ export class RoomController {
     return this.roomService.bookRooms(bookingDto)
   }
 
-  @Post("bookings/cancel")
+  @Post("bookings/cancel/:id")
   async cancelBooking(@Param("id") id : string){
     return this.roomService.cancelBooking(id)
   }
