@@ -130,6 +130,14 @@ export class RoomService {
           status: bookingDto.status,
           checkInDate: bookingDto.checkInDate,
           checkOutDate: bookingDto.checkOutDate,
+          payment: {
+            create: {
+              amount: bookingDto.price,
+              currency: "NGN",
+              status: "PENDING",
+              guestId: bookingDto.guestId,
+            },
+          },
         },
       });
 
@@ -158,14 +166,16 @@ export class RoomService {
      */
     //price accumulation for the total rooms booked
     let price: number = 0;
-    for (const booking of bookingDto) {
-      price += booking.price;
-    }
     try {
-      await this.prisma.booking.createMany({
-        data: bookingDto,
-      });
-      return { price };
+      for (const booking of bookingDto) {
+        await this.bookRoom(booking);
+        price += booking.price;
+      }
+      return {
+        bookingIds: bookingDto.map((booking) => booking.roomId),
+        price,
+        message: "Rooms booked successfully",
+      };
     } catch (error) {
       console.error(`Error booking rooms`);
     }

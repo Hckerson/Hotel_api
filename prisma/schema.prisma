@@ -103,7 +103,6 @@ model Payment {
   bookingId     String        @unique
   amount        Int
   currency      String
-  transactionId String
   channel       String        @default("Card")
   guestId       String
   guest         Guest         @relation(fields: [guestId], references: [id], onDelete: Cascade, onUpdate: Cascade)

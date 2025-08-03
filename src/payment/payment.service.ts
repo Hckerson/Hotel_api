@@ -140,9 +140,9 @@ export class Paystack {
         if (event.event == "charge.success") {
           const { metadata } = event.data;
           const { bookingId, userId } = metadata;
-          bookingId.map(async (id: string) => {
+          for (const id of bookingId) {
             await this.query.updateBookingStatus(id, userId, event.data);
-          });
+          }
         }
       }
     } catch (error) {

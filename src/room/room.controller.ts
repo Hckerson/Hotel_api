@@ -25,28 +25,28 @@ export class RoomController {
   }
 
   @Get(":id/details")
-  findSpecificRoom(@Param("id") id: string) {
-    return this.roomService.findSpecificRoom(+id);
+  async findSpecificRoom(@Param("id") id: string) {
+    return await this.roomService.findSpecificRoom(+id);
   }
 
   @Post("bookings/room")
   async bookRooms(@Body() bookingDto: BookingDto){
-    return this.roomService.bookRoom(bookingDto)
+    return await this.roomService.bookRoom(bookingDto)
   }
 
   @Post("bookings/rooms")
   async bookings(@Body() bookingDto: BookingDto[]){
-    return this.roomService.bookRooms(bookingDto)
+    return await this.roomService.bookRooms(bookingDto)
   }
 
   @Post("bookings/cancel/:id")
   async cancelBooking(@Param("id") id : string){
-    return this.roomService.cancelBooking(id)
+    return await this.roomService.cancelBooking(id)
   }
 
   @Post("bookings/:id")
   async getBookingDetail(@Param("id") id: string){
-    return this.roomService.getBookingDetails(id)
+    return await this.roomService.getBookingDetails(id)
   }
 
 }
