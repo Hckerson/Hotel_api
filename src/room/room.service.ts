@@ -1,11 +1,15 @@
 import { RoomDto } from "./dto/query.dto";
 import { Injectable } from "@nestjs/common";
-import { PrismaService } from "src/prisma/prisma.service";
 import { BookingDto } from "./dto/booking.dto";
+import { Redis } from "src/services/redis/connection";
+import { PrismaService } from "src/prisma/prisma.service";
 
 @Injectable()
 export class RoomService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly redis: Redis
+  ) {}
 
   async filterAvailable(query: RoomDto) {
     /**
@@ -77,15 +81,38 @@ export class RoomService {
      * @param id - The room id
      * @returns - JSON object containing details of the room
      */
-    const room = await this.prisma.room.findUnique({
-      where: {
-        id: `${id}`,
-      },
-      include: {
-        roomType: true,
-      },
-    });
-    return room;
+    try {
+      const roomData = this.redis.getObject(`Room-${id}`);
+      if (!roomData || roomData == null) {
+        const room = await this.prisma.room.findUnique({
+          where: {
+            id: `${id}`,
+          },
+          include: {
+            roomType: true,
+          },
+        });
+        if (!room) return;
+        this.redis.setObject(`Room-${id}`, room);
+      }
+    } catch (error) {
+      console.error(
+        `Error fetching room details for room id ${id} from redis cache ${error}`
+      );
+    }
+    try {
+      const room = await this.prisma.room.findUnique({
+        where: {
+          id: `${id}`,
+        },
+        include: {
+          roomType: true,
+        },
+      });
+      return room;
+    } catch (error) {
+      console.error(`Error fetching room details from db: ${error}`);
+    }
   }
 
   async bookRoom(bookingDto: BookingDto) {

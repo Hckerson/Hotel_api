@@ -58,14 +58,15 @@ model Guest {
   role        Role          @default(GUEST)
   user        User          @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   Booking     Booking[]
-  Testimonial Testimonial[]
-  blog        BlogPost[]
+
   payment     Payment[]
 }
 
 model Admin {
   id     String @id @default(uuid())
   userId String @unique
+  testimonial Testimonial[]
+  blog        BlogPost[]
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
@@ -138,13 +139,13 @@ model GeoData {
 
 model BlogPost {
   id        String   @id @default(uuid())
-  guestId   String
-  guest     Guest    @relation(fields: [guestId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  adminId   String   
+  admin     Admin    @relation(fields: [adminId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   title     String
   slug      String   @unique
   content   String
-  authorId  String
-  author    String
+  authorId  String?
+  author    String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   published Boolean  @default(false)
@@ -152,11 +153,11 @@ model BlogPost {
 
 model Testimonial {
   id       String  @id @default(uuid())
-  guestId  String
+  adminId  String   
   content  String
-  rating   Int
+  rating   Int?
   approved Boolean
-  guest    Guest   @relation(fields: [guestId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  admin    Admin   @relation(fields: [adminId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model Amenities {

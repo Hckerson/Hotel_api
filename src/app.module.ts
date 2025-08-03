@@ -7,6 +7,7 @@ import { AppController } from './app.controller';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { PrismaModule } from './prisma/prisma.module';
 import { PaymentModule } from './payment/payment.module';
+import { ContentModule } from './content/content.module';
 
 @Module({
   imports: [
@@ -22,7 +23,8 @@ import { PaymentModule } from './payment/payment.module';
     }),
     RoomModule,
     PrismaModule,
-    PaymentModule
+    PaymentModule,
+    ContentModule
   ],
   controllers: [AppController],
   providers: [AppService],
