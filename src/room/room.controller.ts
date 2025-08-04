@@ -13,7 +13,7 @@ export class RoomController {
     return await this.roomService.findAll();
   }
 
-  @Get("available")
+  @Get("available/filter")
   async filterAvailable(@Query() query: RoomDto) {
     return await this.roomService.filterAvailable(query);
   }
