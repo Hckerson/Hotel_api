@@ -33,5 +33,6 @@ import { GoogleStrategy } from './service/passport/strategies/google.strategy';
       useClass: ThrottlerGuard,
     },
   ],
+  exports:[AuthService]
 })
 export class AuthModule {}

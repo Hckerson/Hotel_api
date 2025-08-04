@@ -1,14 +1,8 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Param,
-  Query,
-} from "@nestjs/common";
+import { Request } from "express";
 import { RoomDto } from "./dto/query.dto";
 import { RoomService } from "./room.service";
 import { BookingDto } from "./dto/booking.dto";
+import { Controller, Get, Post, Body, Param, Query, Req } from "@nestjs/common";
 
 @Controller("rooms")
 export class RoomController {
@@ -30,23 +24,26 @@ export class RoomController {
   }
 
   @Post("bookings/room")
-  async bookRooms(@Body() bookingDto: BookingDto){
-    return await this.roomService.bookRoom(bookingDto)
+  async bookRooms(@Body() bookingDto: BookingDto) {
+    return await this.roomService.bookRoom(bookingDto);
   }
 
   @Post("bookings/rooms")
-  async bookings(@Body() bookingDto: BookingDto[]){
-    return await this.roomService.bookRooms(bookingDto)
+  async bookings(@Body() bookingDto: BookingDto[]) {
+    return await this.roomService.bookRooms(bookingDto);
   }
 
   @Post("bookings/cancel/:id")
-  async cancelBooking(@Param("id") id : string){
-    return await this.roomService.cancelBooking(id)
+  async cancelBooking(@Param("id") id: string) {
+    return await this.roomService.cancelBooking(id);
   }
 
-  @Post("bookings/:id")
-  async getBookingDetail(@Param("id") id: string){
-    return await this.roomService.getBookingDetails(id)
+  @Get("bookings/:id")
+  async getBookingDetail(@Param("id") id: string) {
+    return await this.roomService.getBookingDetails(id);
   }
-
+  @Get("bookings/all")
+  async getAllBookings(@Req() request: Request) {
+    return await this.roomService.getAllBookingsDetails(request);
+  }
 }

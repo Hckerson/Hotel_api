@@ -1,14 +1,17 @@
+import { Request } from "express";
 import { RoomDto } from "./dto/query.dto";
 import { Injectable } from "@nestjs/common";
 import { BookingDto } from "./dto/booking.dto";
 import { Redis } from "src/services/redis/connection";
 import { PrismaService } from "src/prisma/prisma.service";
+import { AuthService } from "src/auth/auth.service";
 
 @Injectable()
 export class RoomService {
   constructor(
+    private readonly redis: Redis,
     private readonly prisma: PrismaService,
-    private readonly redis: Redis
+    private readonly authService: AuthService
   ) {}
 
   async filterAvailable(query: RoomDto) {
@@ -94,6 +97,7 @@ export class RoomService {
         });
         if (!room) return;
         this.redis.setObject(`Room-${id}`, room);
+        return room;
       }
     } catch (error) {
       console.error(
@@ -208,21 +212,44 @@ export class RoomService {
   async getBookingDetails(id: string) {
     /**
      * Fetch all information regarding the rooms booked
-     * @param id -The ID of the room book
+     * @param id -The ID of the room booked
      * @response -Response object containing details of the rooom booked
      */
     try {
-      const response = await this.prisma.room.findUnique({
+      const response = await this.prisma.booking.findUnique({
         where: {
           id: id,
-        },
-        include: {
-          roomType: true,
         },
       });
       return response;
     } catch (error) {
       console.error(`Error fetching booking details for room id ${id}`);
+      throw error;
+    }
+  }
+
+  async getAllBookingsDetails(request: Request) {
+    /**
+     * Fetch all information regarding the rooms booked
+     * @param id -The ID of the room booked
+     * @response -Response object containing details of the rooom booked
+     */
+    try {
+      //id of the guest
+      const sessionCookie = request.cookies["sessionToken"];
+      const decryptedSession = await this.authService.decrypt(sessionCookie);
+      const userId = decryptedSession.payload.userId as string;
+      const response = await this.prisma.booking.findMany({
+        where: {
+          guestId: userId,
+          status: {
+            not: "CANCELLED",
+          },
+        },
+      });
+      return response;
+    } catch (error) {
+      console.error(`Error fetching booking details for room id `);
       throw error;
     }
   }
