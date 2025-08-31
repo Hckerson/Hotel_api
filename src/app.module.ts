@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
+import { APP_PIPE } from '@nestjs/core';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
+import { ValidationPipe } from '@nestjs/common';
 import { RoomModule } from './room/room.module';
 import { AuthModule } from './auth/auth.module';
 import { AppController } from './app.controller';
@@ -27,6 +29,9 @@ import { ContentModule } from './content/content.module';
     ContentModule
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService,    {
+    provide: APP_PIPE,
+    useClass: ValidationPipe,
+  },],
 })
 export class AppModule {}

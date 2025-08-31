@@ -1,92 +1,304 @@
-## Custom Library Patch Required
+# 🏨 SerenaHeaven - Hotel Booking System
 
-This project uses a custom version of `geoip-lite` (or another library).  
-**After running `npm install`, you must manually copy the contents of `custom_libs/geoip-lite` into `node_modules/geoip-lite`.**
+A comprehensive hotel booking and management system built with NestJS, featuring authentication, payment processing, room management, and content management.
 
-If you skip this step, the app may not work as expected.
+## ✨ Features
 
-**Steps:**
-1. Run `npm install`
-2. Copy the custom library:
-   ```bash
-   cp -r custom_libs/geoip-lite/* node_modules/geoip-lite/
-   ```
-3. Continue with your normal workflow.
+- **🔐 Authentication & Authorization**
+  - Multi-provider authentication (Local, Google, Facebook, GitHub)
+  - Two-factor authentication (2FA) with TOTP
+  - Session management with encrypted cookies
+  - Role-based access control (Guest/Admin)
 
-> Repeat this step every time you reinstall dependencies.
+- **🏠 Room Management**
+  - Room availability filtering
+  - Dynamic pricing and amenities
+  - Booking system with status tracking
+  - Room type categorization
 
-## Description
+- **💳 Payment Processing**
+  - Paystack integration for payments
+  - Webhook handling for payment verification
+  - Transaction status tracking
+  - Payment history management
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- **📝 Content Management**
+  - Blog post management
+  - Testimonials system
+  - Dynamic content delivery
 
-## Project setup
+- **🌍 Geolocation & Security**
+  - IP-based geolocation tracking
+  - Device fingerprinting
+  - Rate limiting and throttling
+  - Redis caching for performance
 
-```bash
-$ pnpm install
-```
+## 🛠️ Tech Stack
 
-## Compile and run the project
+- **Backend Framework**: [NestJS](https://nestjs.com/) (v11)
+- **Database**: PostgreSQL with [Prisma](https://www.prisma.io/) ORM
+- **Authentication**: Passport.js with multiple strategies
+- **Payment**: [Paystack](https://paystack.com/) integration
+- **Caching**: Redis
+- **Documentation**: Swagger/OpenAPI
+- **Language**: TypeScript
+- **Package Manager**: pnpm
 
-```bash
-# development
-$ pnpm run start
+## 📋 Prerequisites
 
-# watch mode
-$ pnpm run start:dev
+- Node.js (v18 or higher)
+- PostgreSQL database
+- Redis server
+- pnpm package manager
 
-# production mode
-$ pnpm run start:prod
-```
+## 🚀 Quick Start
 
-## Run tests
-
-```bash
-# unit tests
-$ pnpm run test
-
-# e2e tests
-$ pnpm run test:e2e
-
-# test coverage
-$ pnpm run test:cov
-```
-
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### 1. Clone the repository
 
 ```bash
-$ pnpm install -g @nestjs/mau
-$ mau deploy
+git clone <repository-url>
+cd serena-heaven
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### 2. Install dependencies
 
-## Resources
+```bash
+pnpm install
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+### 3. Environment Setup
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+Create a `.env` file in the root directory:
 
-## Support
+```env
+# Database
+DATABASE_URL="postgresql://username:password@localhost:5432/serena_heaven"
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+# Redis
+REDIS_URL="redis://localhost:6379"
 
-## Stay in touch
+# Authentication
+COOKIE_SECRET="your-super-secret-cookie-key"
+JWT_SECRET="your-jwt-secret"
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+# Paystack
+PAYSTACK_SECRET_KEY="sk_test_..."
+PAYSTACK_PUBLIC_KEY="pk_test_..."
 
-## License
+# OAuth Providers
+GOOGLE_CLIENT_ID="your-google-client-id"
+GOOGLE_CLIENT_SECRET="your-google-client-secret"
+FACEBOOK_CLIENT_ID="your-facebook-client-id"
+FACEBOOK_CLIENT_SECRET="your-facebook-client-secret"
+GITHUB_CLIENT_ID="your-github-client-id"
+GITHUB_CLIENT_SECRET="your-github-client-secret"
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+# Email (Optional)
+SMTP_HOST="smtp.gmail.com"
+SMTP_PORT=587
+SMTP_USER="your-email@gmail.com"
+SMTP_PASS="your-app-password"
+
+# Server
+PORT=3000
+```
+
+### 4. Database Setup
+
+```bash
+# Generate Prisma client
+pnpm run prisma:generate
+
+# Run database migrations
+npx prisma migrate dev
+
+# Seed the database (if you have seed data)
+npx prisma db seed
+```
+
+### 5. Custom Library Setup
+
+This project uses a custom version of `geoip-lite`. After installation, copy the custom library:
+
+```bash
+cp -r custom_libs/geoip-lite/* node_modules/geoip-lite/
+```
+
+### 6. Start the application
+
+```bash
+# Development mode
+pnpm run start:dev
+
+# Production mode
+pnpm run start:prod
+
+# Debug mode
+pnpm run start:debug
+```
+
+The API will be available at `http://localhost:3000`
+
+## 📚 API Documentation
+
+Once the server is running, you can access the interactive API documentation at:
+
+- **Swagger UI**: `http://localhost:3000/api`
+- **OpenAPI JSON**: `http://localhost:3000/api-json`
+
+## 🏗️ Project Structure
+
+```
+src/
+├── auth/                 # Authentication & authorization
+│   ├── dto/             # Data transfer objects
+│   ├── entities/        # User entities
+│   └── service/         # Auth utilities
+├── payment/             # Payment processing
+│   ├── dto/            # Payment DTOs
+│   ├── services/       # Paystack integration
+│   └── db/             # Payment database operations
+├── room/               # Room management
+│   ├── dto/           # Room DTOs
+│   └── entities/      # Room entities
+├── content/            # Content management
+│   ├── dto/           # Content DTOs
+│   └── entities/      # Blog & testimonial entities
+├── prisma/            # Database configuration
+├── services/          # Shared services
+│   └── redis/         # Redis connection
+└── lib/               # Utility libraries
+```
+
+## 🔧 Available Scripts
+
+```bash
+# Development
+pnpm run start:dev      # Start in watch mode
+pnpm run start:debug    # Start with debugger
+pnpm run start:sdev     # Start with webpack HMR
+
+# Production
+pnpm run build          # Build the application
+pnpm run start:prod     # Start production server
+
+# Testing
+pnpm run test           # Run unit tests
+pnpm run test:watch     # Run tests in watch mode
+pnpm run test:cov       # Run tests with coverage
+pnpm run test:e2e       # Run end-to-end tests
+
+# Code Quality
+pnpm run lint           # Run ESLint
+pnpm run format         # Format code with Prettier
+
+# Database
+pnpm run prisma:generate # Generate Prisma client
+```
+
+## 🔐 Authentication Endpoints
+
+- `POST /auth/register` - User registration
+- `POST /auth/login` - User login
+- `POST /auth/logout` - User logout
+- `POST /auth/2fa/enable` - Enable 2FA
+- `POST /auth/2fa/verify` - Verify 2FA code
+- `GET /auth/profile` - Get user profile
+
+## 🏠 Room Management Endpoints
+
+- `GET /rooms` - Get all available rooms
+- `GET /rooms/:id/details` - Get specific room details
+- `POST /rooms/available/filter` - Filter rooms by criteria
+- `POST /rooms/bookings/single` - Book a room
+- `POST /rooms/bookings/multiple` - Book multiple rooms
+- `PUT /rooms/bookings/cancel/:id` - Cancel booking
+
+## 💳 Payment Endpoints
+
+- `POST /payment/initialize` - Initialize payment
+- `POST /payment/verify/:reference` - Verify payment
+- `GET /payment/transactions` - Get transaction history
+- `POST /payment/webhook/paystack` - Paystack webhook
+
+## 📝 Content Endpoints
+
+- `GET /content/blog` - Get blog posts
+- `POST /content/blog` - Create blog post (Admin)
+- `GET /content/testimonials` - Get testimonials
+- `POST /content/testimonials` - Create testimonial
+
+## 🧪 Testing
+
+```bash
+# Run all tests
+pnpm run test
+
+# Run tests with coverage
+pnpm run test:cov
+
+# Run e2e tests
+pnpm run test:e2e
+```
+
+## 🚀 Deployment
+
+### Using Docker (Recommended)
+
+```dockerfile
+FROM node:18-alpine
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm install -g pnpm
+RUN pnpm install
+
+COPY . .
+RUN pnpm run build
+
+EXPOSE 3000
+
+CMD ["pnpm", "run", "start:prod"]
+```
+
+### Environment Variables for Production
+
+Make sure to set all required environment variables in your production environment:
+
+- Database connection string
+- Redis connection string
+- All OAuth provider credentials
+- Paystack API keys
+- Cookie and JWT secrets
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🆘 Support
+
+If you encounter any issues or have questions:
+
+1. Check the [API documentation](http://localhost:3000/api) when running locally
+2. Review the [NestJS documentation](https://docs.nestjs.com/)
+3. Open an issue in this repository
+
+## 🔗 Links
+
+- [NestJS Documentation](https://docs.nestjs.com/)
+- [Prisma Documentation](https://www.prisma.io/docs/)
+- [Paystack API Documentation](https://paystack.com/docs/)
+- [Redis Documentation](https://redis.io/documentation)
+
+---
+
+Built with ❤️ using [NestJS](https://nestjs.com/)

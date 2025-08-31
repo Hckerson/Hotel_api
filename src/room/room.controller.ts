@@ -23,12 +23,12 @@ export class RoomController {
     return await this.roomService.findSpecificRoom(+id);
   }
 
-  @Post("bookings/room")
+  @Post("bookings/single")
   async bookRooms(@Body() bookingDto: BookingDto) {
     return await this.roomService.bookRoom(bookingDto);
   }
 
-  @Post("bookings/rooms")
+  @Post("bookings/multiple")
   async bookings(@Body() bookingDto: BookingDto[]) {
     return await this.roomService.bookRooms(bookingDto);
   }

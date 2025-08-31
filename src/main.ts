@@ -2,6 +2,8 @@ import "dotenv/config";
 import { AppModule } from "./app.module";
 import { NestFactory } from "@nestjs/core";
 import * as cookieParser from "cookie-parser";
+import { ValidationPipe } from "@nestjs/common";
+import { ValidationPipeOptions , BadRequestException} from "@nestjs/common";
 import { SwaggerModule, DocumentBuilder , SwaggerDocumentOptions} from "@nestjs/swagger";
 
 declare const module: any;
@@ -17,15 +19,21 @@ async function bootstrap() {
     methods: ["GET", "POST", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   };
-
-  const app = await NestFactory.create(AppModule);
   const options: SwaggerDocumentOptions =  {
     operationIdFactory: (
       controllerKey: string,
       methodKey: string
     ) => methodKey
   };
+
+  const opts: ValidationPipeOptions = {
+    transform: true,
+    exceptionFactory: errs => new BadRequestException(errs),
+  }
+
+  const app = await NestFactory.create(AppModule);
   app.use(cookieParser(process.env.COOKIE_SECRET));
+  app.useGlobalPipes(new ValidationPipe())
   const config = new DocumentBuilder()
     .setTitle("SerenaHeaven API")
     .setDescription("The authentication endpoints")

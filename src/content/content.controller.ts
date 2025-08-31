@@ -59,8 +59,8 @@ export class ContentController {
   }
 
   @Patch("testimonial/:id")
-  updateTestimonial(@Param("id") id: string, @Body() UPdateBlog: UPdateBlog) {
-    return this.contentService.updateTestimonial(id, UPdateBlog);
+  updateTestimonial(@Param("id") id: string, @Body() updateTestimonial: UpdateTestimonial) {
+    return this.contentService.updateTestimonial(id, updateTestimonial);
   }
 
   @Delete("testimonial/:id")
@@ -83,8 +83,8 @@ export class ContentController {
   }
 
   @Patch("amenities/:id")
-  updateAmenity(@Param("id") id: string, @Body() UPdateBlog: UPdateBlog) {
-    return this.contentService.updateAmenity(id, UPdateBlog);
+  updateAmenity(@Param("id") id: string, @Body() updateAmenity: UpdateAmenities) {
+    return this.contentService.updateAmenity(id, updateAmenity);
   }
 
   @Delete("amenities/:id")

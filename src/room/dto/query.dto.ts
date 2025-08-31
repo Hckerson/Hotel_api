@@ -1,4 +1,3 @@
-import { BookingStatus } from "generated/prisma";
 import {
   IsString,
   IsInt,
