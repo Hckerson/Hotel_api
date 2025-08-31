@@ -14,10 +14,10 @@ export class Redis implements OnModuleInit, OnModuleDestroy {
     if (!this.client) {
       this.client = createClient({
         username: "default",
-        password: "pOqQTiINbShqHvy3scSq2sQ9qIb6vxu0",
+        password: "SDWudDkXjwnHzDSAQUcbHkeZj52hZ6as",
         socket: {
-          host: "redis-11498.c92.us-east-1-3.ec2.redns.redis-cloud.com",
-          port: 11498,
+          host: "redis-19665.c62.us-east-1-4.ec2.redns.redis-cloud.com",
+          port: 19665,
           reconnectStrategy: (retries) => {
             // Generate a random jitter between 0 – 100 ms:
             const jitter = Math.floor(Math.random() * 100);
