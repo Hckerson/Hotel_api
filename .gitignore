@@ -9,6 +9,8 @@
 /generated
 /dist
 
+/src/generated
+
 # testing
 /coverage
 

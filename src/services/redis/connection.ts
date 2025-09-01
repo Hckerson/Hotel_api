@@ -1,5 +1,5 @@
+import { Room } from "src/generated/prisma";
 import { createClient, RedisClientType } from "redis";
-import { Room } from "generated/prisma";
 import { Injectable, OnModuleInit, OnModuleDestroy } from "@nestjs/common";
 
 @Injectable()
