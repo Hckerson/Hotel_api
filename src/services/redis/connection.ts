@@ -1,4 +1,4 @@
-import { Room } from "src/generated/prisma";
+import { Room } from "@prisma/client";
 import { createClient, RedisClientType } from "redis";
 import { Injectable, OnModuleInit, OnModuleDestroy } from "@nestjs/common";
 
